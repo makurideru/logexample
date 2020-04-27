@@ -9,6 +9,37 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <properties>
+        <!-- OpenJDK 8 als Default fuer die im Build verwendete Java-Version festlegen, kann von ableitenden Builds ueberschrieben werden. -->
+        <target-jdk.version>1.8</target-jdk.version>
+        <target-jdk.vendor>openjdk</target-jdk.vendor>
+
+        <!-- Zusaetzliche Parameter fuer das Javadoc Tool. Darueber wird ab Java 8 die uebermaessig strenge Validierung abgeschaltet. Muss fuer Builds,
+           die Java <= 7 benutzen, auf den leeren Wert ueberschrieben werden, da die Option neu in Java 8 ist und sonst zum Crash fuehrt. -->
+        <javadoc-additionalparam>-Xdoclint:reference,syntax</javadoc-additionalparam>
+
+        <!-- Defaults fuer die im Build verwendeten Plugin-Version-Properties, koennen von ableitenden Builds ueberschrieben werden. -->
+        <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
+        <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+        <maven-dependency-plugin.version>3.0.2</maven-dependency-plugin.version>
+        <maven-ejb-plugin.version>3.0.0</maven-ejb-plugin.version>
+        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
+        <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
+        <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+        <maven-project-info.version>2.9</maven-project-info.version>
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
+        <maven-site-plugin.version>3.6</maven-site-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
+        <maven-toolchains-plugin.version>1.1</maven-toolchains-plugin.version>
+        <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
+
+        <!--default für entwickler, wird via jenkinfile übergebeben-->
+        <currentbranch>tobechanged</currentbranch>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -23,5 +54,86 @@
             <version>1.2.17</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${target-jdk.version}</source>
+                        <target>${target-jdk.version}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <!-- Aus dem Super-POM geerbte Execution des jar-Goals unterdruecken. -->
+                            <id>attach-sources</id>
+                            <phase>none</phase>
+                        </execution>
+                        <execution>
+                            <!-- Stattdessen Goal jar-no-fork ausfuehren. -->
+                            <id>attach-sources-no-fork</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+
+                <!-- Versionen der Apache-Maven-Plugins festlegen -->
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-toolchains-plugin</artifactId>
+                    <version>${maven-toolchains-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-project-info.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${maven-ejb-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
