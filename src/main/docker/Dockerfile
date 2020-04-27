@@ -1,5 +1,5 @@
 # Extending our own wildfly image here
-FROM jboss/wildfly:15
+FROM jboss/wildfly
 
 ARG BUILD_DATE
 LABEL mark.docker.image=mark-log-sample \
