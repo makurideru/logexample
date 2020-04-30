@@ -7,14 +7,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 
 @WebServlet("/jsonausgabe")
 public class DemologJson extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  final static Logger logger = Logger.getLogger(Demolog4jOneLineServlet.class);
+  Logger logger = LogManager.getLogger("CONSOLE_JSON_APPENDER");
 
   public DemologJson()
   {
