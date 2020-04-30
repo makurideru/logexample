@@ -9,14 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 
-@WebServlet("/systemoutprintln")
-public class DemologSysout extends HttpServlet {
+@WebServlet("/jsonausgabe")
+public class DemologJson extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   Logger logger = LogManager.getLogger("CONSOLE_JSON_APPENDER");
 
-  public DemologSysout()
+  public DemologJson()
   {
     super();
   }
@@ -30,10 +31,17 @@ public class DemologSysout extends HttpServlet {
     out.print("<title>servletworks</title>");
     out.print("</head>");
     out.print("<body>");
-    out.print("System.out.println(\"sysout nachricht\");");
+    out.print("JSONObject obj = new JSONObject();\n<br>"
+        + "\n<br>"
+        + "    obj.put(\"name\", \"foo\");\n<br>"
+        + "    obj.put(\"num\", new Integer(100));\n<br>"
+        + "    obj.put(\"balance\", new Double(1000.21));\n<br>"
+        + "    obj.put(\"is_vip\", new Boolean(true));\n<br>"
+        + "\n<br>"
+        + "    logger.error(obj);<br>");
     out.print("</body></html>");
 
-    DemologSysout obj = new DemologSysout();
+    DemologJson obj = new DemologJson();
     obj.runMe("demolog4jOneLine");
   }
 
@@ -45,7 +53,14 @@ public class DemologSysout extends HttpServlet {
 
   private void runMe(String parameter){
 
-    System.out.println("sysout nachricht");
+    JSONObject obj = new JSONObject();
+
+    obj.put("name", "foo");
+    obj.put("num", new Integer(100));
+    obj.put("balance", new Double(1000.21));
+    obj.put("is_vip", new Boolean(true));
+
+    logger.error(obj);
 
   }
 
