@@ -5,6 +5,8 @@ ARG BUILD_DATE
 LABEL mark.docker.image=mark-log-sample \
       mark.build.date=$BUILD_DATE
 
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+
 ADD ./logexample-1.0-SNAPSHOT.war /opt/jboss/wildfly/standalone/deployments/
 
 # adding our users and user-groups to the dockerized  wildfly
